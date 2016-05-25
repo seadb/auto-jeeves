@@ -1,7 +1,3 @@
-/**
-* Cars
-* @namespace thinkster.posts.services
-*/
 (function () {
   'use strict';
 
@@ -16,14 +12,14 @@
     .module('app.cars')
     .factory('Cars', Cars);
 
-  Cars.$inject = ['$http'];
+  Cars.$inject = ['$http', 'localStorageService'];
 
 
   /**
   * @namespace Cars
   * @returns {Factory}
   */
-  function Cars($http) {
+  function Cars($http, localStorageService) {
 
 
     var Cars = {
@@ -31,6 +27,8 @@
       models: models,
       years: years,
       all: all,
+      save: save,
+      get: get
     };
 
     return Cars;
@@ -62,5 +60,17 @@
       });
     }
 
+    function save(make, model, year) {
+      var car = {
+        make: make,
+        model: model,
+        year: year
+      }
+      localStorageService.set('car', car);
+    }
+
+    function get() {
+      return localStorageService.get('car');
+    }
   }
 })();

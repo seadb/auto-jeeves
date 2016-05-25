@@ -14,6 +14,8 @@
     var vm = this;
     vm.getModels = getModels;
     vm.getYears = getYears;
+    vm.saveCar = saveCar;
+    vm.getCar = getCar;
     console.log("car controller");
     init();
 
@@ -43,6 +45,13 @@
     function yearsSuccess(data) {
       console.log(data);
       vm.years = data.data.years;
+    }
+    function saveCar() {
+      Cars.save(vm.selectedMake, vm.selectedModel, vm.selectedYear);
+    }
+    function getCar() {
+      console.log(Cars.get());
+      vm.storedCar = Cars.get();
     }
   }
 })();
