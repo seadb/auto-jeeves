@@ -17,7 +17,9 @@
     vm.saveCar = saveCar;
     vm.getCar = getCar;
     vm.submit = submit;
-    console.log("car controller");
+    vm.isSubmitEnabled = false;
+    vm.enableSubmit = enableSubmit;
+
     init();
 
     function init() {
@@ -29,22 +31,22 @@
       vm.makes = data.data.makes;
     }
     function getModels() {
-      console.log(vm.selectedMake);
       Cars.models(vm.selectedMake)
         .then(modelsSuccess);
     }
     function modelsSuccess(data) {
-      console.log(data);
+      disableSubmit();
+      vm.selectedModel = undefined;
+      vm.selectedYear = undefined;
       vm.models = data.data.models;
     }
     function getYears() {
-      console.log(vm.selectedMake);
-      console.log(vm.selectedModel);
       Cars.years(vm.selectedMake, vm.selectedModel)
         .then(yearsSuccess);
     }
     function yearsSuccess(data) {
-      console.log(data);
+      disableSubmit();
+      vm.selectedYear = undefined;
       vm.years = data.data.years;
     }
     function saveCar() {
@@ -52,13 +54,17 @@
       Cars.save(vm.selectedMake, vm.selectedModel, vm.selectedYear);
     }
     function getCar() {
-      console.log(Cars.get());
       vm.storedCar = Cars.get();
     }
     function submit() {
-      console.log('submit');
       saveCar();
       window.location = '#/maintenance'
+    }
+    function enableSubmit() {
+      vm.isSubmitEnabled = true;
+    }
+    function disableSubmit() {
+      vm.isSubmitEnabled = false;
     }
   }
 })();

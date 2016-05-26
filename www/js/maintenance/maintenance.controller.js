@@ -15,6 +15,7 @@
     vm.getMaintenance = getMaintenance;
     vm.hasMileageAndMaintenance = hasMileageAndMaintenance;
     vm.update = update;
+    vm.maintenanceActions = [];
     console.log("maintenance controller");
     Cars.registerCallback(update);
     
@@ -37,7 +38,6 @@
       var filteredActions = rawActions.filter(filterByFrequency);
       console.log(filteredActions);
       vm.maintenanceActions = filteredActions;
-      
     }
     function hasMileageAndMaintenance(action) {
       console.log(action);
