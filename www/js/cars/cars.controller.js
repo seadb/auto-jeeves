@@ -16,6 +16,7 @@
     vm.getYears = getYears;
     vm.saveCar = saveCar;
     vm.getCar = getCar;
+    vm.submit = submit;
     console.log("car controller");
     init();
 
@@ -48,10 +49,17 @@
     }
     function saveCar() {
       Cars.save(vm.selectedMake, vm.selectedModel, vm.selectedYear);
+      $scope.$emit('carChange');
+      $scope.$broadcast('carChange');
     }
     function getCar() {
       console.log(Cars.get());
       vm.storedCar = Cars.get();
+    }
+    function submit() {
+      console.log('submit');
+      saveCar();
+      window.location = '#/maintenance'
     }
   }
 })();

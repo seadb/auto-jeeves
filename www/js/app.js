@@ -9,6 +9,7 @@
       'ui.router',
       'app.routes',
       'app.cars',
+      'app.maintenance',
       'LocalStorageModule'
     ]);
 
