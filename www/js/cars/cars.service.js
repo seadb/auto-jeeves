@@ -21,19 +21,21 @@
   */
   function Cars($http, localStorageService) {
 
-
     var Cars = {
       makes: makes,
       models: models,
       years: years,
       all: all,
       save: save,
-      get: get
+      get: get,
+      registerCallback: registerCallback
     };
 
     return Cars;
 
     ////////////////////
+    
+    var callback;
 
     /**
     * @desc Get all Cars
@@ -66,11 +68,19 @@
         model: model,
         year: year
       }
+      console.log(car);
       localStorageService.set('car', car);
+      if( typeof(callback) === "function") {
+        callback();
+      }
     }
 
     function get() {
       return localStorageService.get('car');
+    }
+
+    function registerCallback(cb) {
+      callback = cb;
     }
   }
 })();

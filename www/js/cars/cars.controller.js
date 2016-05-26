@@ -48,9 +48,8 @@
       vm.years = data.data.years;
     }
     function saveCar() {
+      vm.selectedYear = JSON.parse(vm.selectedYear);
       Cars.save(vm.selectedMake, vm.selectedModel, vm.selectedYear);
-      $scope.$emit('carChange');
-      $scope.$broadcast('carChange');
     }
     function getCar() {
       console.log(Cars.get());

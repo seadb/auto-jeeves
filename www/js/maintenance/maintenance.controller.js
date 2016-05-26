@@ -14,18 +14,15 @@
     var vm = this;
     vm.getMaintenance = getMaintenance;
     vm.hasMileageAndMaintenance = hasMileageAndMaintenance;
-    vm.init = init;
+    vm.update = update;
     console.log("maintenance controller");
+    Cars.registerCallback(update);
     
-    init();
+    update();
 
-    $scope.$on('carChange', function () {
-      console.log('carchange');
-    });
-    function init() {
-      var car = getCar();
-      console.log(car);
-      getMaintenance(car.year);
+    function update() {
+      vm.car = getCar();
+      getMaintenance(vm.car.year.id);
     }
     function getCar() {
       return Cars.get();
@@ -43,10 +40,8 @@
       
     }
     function hasMileageAndMaintenance(action) {
-      console.log('has');
       console.log(action);
       if ( action.intervalMileage !== undefined && action.intervalMonth !== undefined ) {
-        console.log('both');
         return true;
       }
       else {
