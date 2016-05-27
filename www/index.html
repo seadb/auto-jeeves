@@ -39,12 +39,12 @@
       <ion-view>
         <ion-header-bar class="bar-header">
             <h1 class="title">Auto Jeeves</h1>
-        </ion-header-bar>    
+        </ion-header-bar
         <ion-content has-header="true" padding="true" class="center">
           Welcome to Auto Jeeves <br/><br/>
-          <a class="button" href="#/maintenance">My Car</a>
         </ion-content>
         <ion-footer-bar>
+          <a class="button" href="#/maintenance">My Car</a>
           <h1 class="title"></h1>
           <a class="button icon-right ion-chevron-right" href="#/cars">Continue</a>
         </ion-footer-bar>
@@ -54,32 +54,44 @@
       <ion-view ng-controller="CarsController as vm">
         <ion-header-bar class="bar-header">
             <h1 class="title">Select a Car</h1>
-        </ion-header-bar>        
+        </ion-header-bar>
         <ion-content has-header="true" padding="true">
-        <form name="carForm" novalidate>
-          <div class="list">
-            <label class="item item-input item-select" for="make">
-              <div class="input-label">Make</div>
-              <select name="make" ng-model="vm.selectedMake" ng-change="vm.getModels()" required>
-                <option ng-repeat="make in vm.makes" value="{{make.name}}">{{make.name}}</option>
-              </select>
-            </label>
-            <label class="item item-input item-select" for="model" ng-show="vm.selectedMake" ng-focus="vm.selectedMake">
-              <div class="input-label">Model</div>
-              <select ng-model="vm.selectedModel" ng-change="vm.getYears()" required>
-                <option ng-repeat="model in vm.models" value="{{model.name}}">{{model.name}}</option>
-              </select>
-            </label>
-            <label class="item item-input item-select" for="year" ng-show="vm.selectedModel">
-              <div class="input-label">Year</div>
-              <select ng-model="vm.selectedYear" ng-change="vm.enableSubmit()" required>
-                <option ng-repeat="year in vm.years" value="{{year}}">{{year.year}}</option>
-              </select>
-            </label>
-          </div>
-          <div class="center">
-          </div>
-        </form>
+          <form name="carForm" novalidate>
+            <div class="center" ng-show="carForm.make.$invalid">
+              Please select a make
+            </div>
+            <div class="center" ng-show="carForm.make.$valid && carForm.model.$invalid">
+              Please select a model
+            </div>
+            <div class="center" ng-show="carForm.make.$valid && carForm.model.$valid && carForm.year.$invalid">
+              Please select a year
+            </div>
+            <div class="center" ng-show="carForm.$valid">
+              Submit your car to see maintenance schedule
+            </div>
+            <div class="list">
+              <label class="item item-input item-select" for="make">
+                <div class="input-label">Make</div>
+                <select name="make" ng-model="vm.selectedMake" ng-change="vm.getModels()" required>
+                  <option ng-repeat="make in vm.makes" value="{{make.name}}">{{make.name}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select" for="model" ng-show="vm.selectedMake" ng-focus="vm.selectedMake">
+                <div class="input-label">Model</div>
+                <select name="model" ng-model="vm.selectedModel" ng-change="vm.getYears()" required>
+                  <option ng-repeat="model in vm.models" value="{{model.name}}">{{model.name}}</option>
+                </select>
+              </label>
+              <label class="item item-input item-select" for="year" ng-show="vm.selectedModel">
+                <div class="input-label">Year</div>
+                <select name="year" ng-model="vm.selectedYear" ng-change="vm.enableSubmit()" required>
+                  <option ng-repeat="year in vm.years" value="{{year}}">{{year.year}}</option>
+                </select>
+              </label>
+            </div>
+            <div class="center">
+            </div>
+          </form>
         </ion-content>
         <ion-footer-bar>
           <a class="button icon-left ion-chevron-left" onclick="history.back()">Back</a>
@@ -89,34 +101,42 @@
     </script>  
     <script id="maintenance-schedule.html" type="text/ng-template">
       <ion-view ng-controller="MaintenanceController as vm">
-        <ion-header-bar class="bar-header">
-          <a class="button icon-left ion-chevron-left" onclick="history.back()">Back</a>
-          <h1 class="title">Maintenance Schedule for {{vm.car.make}} {{vm.car.model}} {{vm.car.year.year}}</h1>
-          <a class="button icon-left ion-home" href="#/">Home</a>
-        </ion-header-bar>        
-        <ion-content has-header="true" padding="true">
-          <div class="center" ng-show="vm.maintenanceActions.length === 0">
-            No maintenance items found for {{vm.car.make}} {{vm.car.model}} {{vm.car.year.year}}
-          </div>
-          <div ng-show="vm.maintenanceActions.length > 0">
-            <div class="row">
-              <div class="col"><h4>Action</h4></div>
-              <div class="col"><h4>Frequency</h4></div>
+          <ion-header-bar class="bar-header">
+            <a class="button icon-left ion-chevron-left" onclick="history.back()">Back</a>
+            <h1 class="title">
+              <span ng-show="vm.car !== undefined">
+                {{vm.car.make}} {{vm.car.model}} {{vm.car.year.year}}
+              </span>
+            </h1>
+            <a class="button icon-left ion-home" href="#/">Home</a>
+          </ion-header-bar>
+          <ion-content has-header="true" padding="true">
+            <div class="center" ng-show="vm.maintenanceActions.length === 0">
+              No maintenance items found
+              <span ng-show="vm.car !== undefined">
+                for {{vm.car.make}} {{vm.car.model}} {{vm.car.year.year}}
+              </span>
             </div>
-
-            <div class="row" ng-repeat="action in vm.maintenanceActions | orderBy:['intervalMileage','intervalMonth']">
-              <div class="col">
-                {{action.action}} {{action.item}}
+            <div ng-show="vm.maintenanceActions.length > 0">
+              <div class="row">
+                <div class="col"><h4>Action</h4></div>
+                <div class="col"><h4>Frequency</h4></div>
               </div>
-              <div class="col">
-                 Every 
-                  <span ng-hide="{{action.intervalMileage === 0}}">{{action.intervalMileage}} miles</span>
-                  <span ng-show="{{action.intervalMileage !== 0 && action.intervalMonth !== undefined}}"> or</span> 
-                  <span ng-hide="{{action.intervalMonth === undefined}}">{{action.intervalMonth}} months</span>
+
+              <div class="row" ng-repeat="action in vm.maintenanceActions | orderBy:['intervalMileage','intervalMonth']">
+                <div class="col">
+                  {{action.action}} {{action.item}}
+                </div>
+                <div class="col">
+                   Every 
+                    <span ng-hide="{{action.intervalMileage === 0}}">{{action.intervalMileage}} miles</span>
+                    <span ng-show="{{action.intervalMileage !== 0 && action.intervalMonth !== undefined && action.intervalMonth !== 0}}"> or</span> 
+                    <span ng-hide="{{action.intervalMonth === undefined || action.intervalMonth === 0}}">{{action.intervalMonth}} months</span>
+                </div>
               </div>
             </div>
-
-        </ion-content>
+          </ion-content>
+        </div>
       </ion-view>
     </script>  
   </body>

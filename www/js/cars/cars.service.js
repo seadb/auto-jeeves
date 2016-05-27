@@ -68,7 +68,6 @@
         model: model,
         year: year
       }
-      console.log(car);
       localStorageService.set('car', car);
       if( typeof(callback) === "function") {
         callback();
@@ -84,3 +83,4 @@
     }
   }
 })();
+

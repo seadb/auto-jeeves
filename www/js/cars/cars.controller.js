@@ -7,9 +7,6 @@
 
   CarsController.$inject = ['$location', '$scope', 'Cars'];
 
-  /**
-  * @namespace CarsController
-  */
   function CarsController($location, $scope, Cars) {
     var vm = this;
     vm.getModels = getModels;
@@ -27,7 +24,6 @@
         .then(makesSuccess);
     }
     function makesSuccess(data) {
-      console.log(data);
       vm.makes = data.data.makes;
     }
     function getModels() {
