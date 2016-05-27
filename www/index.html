@@ -115,7 +115,7 @@
                 <div class="col"><h4>Frequency</h4></div>
               </div>
 
-              <div class="row" ng-repeat="action in vm.maintenanceActions | orderBy:['intervalMileage','intervalMonth']">
+              <div ng-class-even="'gray-bg'" class="row padding-10" ng-repeat="action in vm.maintenanceActions | orderBy:['intervalMileage','intervalMonth']">
                 <div class="col">
                   {{action.action}} {{action.item}}
                 </div>
